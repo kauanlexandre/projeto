@@ -1,0 +1,11 @@
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.57.4';
+const supabase=createClient('https://jfmzukwfymuwamsldojx.supabase.co','sb_publishable_ULWoIXtScA85GN58Tg4gkA_3o0PJvdQ');
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>\"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[m]));
+let user=null;
+async function profile(id){const {data}=await supabase.from('profiles').select('username,display_name').eq('id',id).maybeSingle();return data||{username:'jogador',display_name:'Jogador'};}
+async function render(rows){const box=$('#chatMessages');if(!box)return;const list=await Promise.all(rows.map(async r=>({...r,p:await profile(r.user_id)})));box.innerHTML=list.map(r=>`<div class="chatMessage"><div><b>${esc(r.p.display_name||r.p.username)}</b> <span class="muted">@${esc(r.p.username)}</span></div><div>${esc(r.message)}</div><small class="muted">${new Date(r.created_at).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})}</small></div>`).join('')||'<p class="muted">Ainda não há mensagens.</p>';box.scrollTop=box.scrollHeight;}
+async function load(){const {data,error}=await supabase.from('chat_messages').select('id,user_id,message,created_at').order('created_at',{ascending:false}).limit(50);if(error){$('#chatMessages').innerHTML='<p class="muted">Chat indisponível no momento.</p>';return}render((data||[]).reverse());}
+supabase.auth.getSession().then(async({data})=>{user=data.session?.user||null;const f=$('#chatForm'),input=$('#chatInput'),msg=$('#chatMsg');if(!f)return;if(!user){input.disabled=true;input.placeholder='Entre na NexPlay para conversar';return}f.onsubmit=async e=>{e.preventDefault();const text=input.value.trim();if(!text)return;const {error}=await supabase.from('chat_messages').insert({user_id:user.id,message:text});if(error){msg.textContent='Não foi possível enviar a mensagem.';return}input.value='';msg.textContent='';};});
+supabase.channel('nexplay-chat').on('postgres_changes',{event:'INSERT',schema:'public',table:'chat_messages'},()=>load()).subscribe();
+load();
