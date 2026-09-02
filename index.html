@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="pt-BR">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#080b18"><title>NexPlay — jogos online</title><link rel="stylesheet" href="styles.css"></head>
+<body>
+<header class="top"><a class="brand" href="#home"><span class="logo">N</span><span>Nex<span>Play</span></span></a><nav><a href="#home">Início</a><a href="#games">Jogos</a><a href="#ranking">Ranking</a><a href="#missions">Missões</a><a href="#shop">Loja</a></nav><div id="userBox"><button class="btn" id="loginBtn">Entrar</button></div></header>
+<main>
+<section id="home" class="hero"><div><p class="eyebrow">NOVA GERAÇÃO DE JOGOS</p><h1>Jogue. Evolua.<br><span>Domine.</span></h1><p>Uma plataforma de jogos rápidos, rankings, conquistas, missões e progressão conectada ao seu perfil.</p><div class="actions"><a class="btn primary" href="#games">Explorar jogos</a><button class="btn ghost" id="randomBtn">Jogo aleatório</button></div></div><div class="heroCard"><div class="orbit"></div><b>NEXPLAY</b><small>10 experiências • 1 perfil</small></div></section>
+<section id="games" class="section"><div class="sectionHead"><div><p class="eyebrow">CATÁLOGO</p><h2>Escolha seu jogo</h2></div><input id="search" placeholder="Buscar jogo..."></div><div id="gameGrid" class="grid"></div></section>
+<section id="ranking" class="section split"><div><p class="eyebrow">COMPETIÇÃO</p><h2>Ranking global</h2><p>Mostre quem manda nos placares da NexPlay.</p></div><div class="panel"><div id="rankingList">Carregando ranking...</div></div></section>
+<section id="missions" class="section"><p class="eyebrow">PROGRESSÃO</p><h2>Missões e conquistas</h2><div id="missionList" class="cards"></div></section>
+<section id="shop" class="section"><p class="eyebrow">PERSONALIZAÇÃO</p><h2>Loja</h2><div id="shopList" class="cards"></div></section>
+</main>
+<div id="gameModal" class="modal hidden"><div class="modalBox"><div class="modalHead"><div><span id="modalCategory" class="tag"></span><h2 id="modalTitle"></h2></div><button class="close" id="closeGame">×</button></div><div id="gameArea" class="gameArea"></div><div class="gameFoot"><span id="scoreText">Pontuação: 0</span><button class="btn primary" id="restartGame">Reiniciar</button></div></div></div>
+<div id="authModal" class="modal hidden"><div class="authBox"><button class="close" id="closeAuth">×</button><h2 id="authTitle">Entrar na NexPlay</h2><form id="authForm"><input id="email" type="email" placeholder="E-mail" required><input id="password" type="password" placeholder="Senha" minlength="6" required><input id="username" placeholder="Nome de jogador" minlength="3" maxlength="24"><button class="btn primary" id="authSubmit">Entrar</button></form><button class="link" id="toggleAuth">Criar uma conta</button><p id="authMsg"></p></div></div>
+<footer>© 2026 NexPlay • Feito para jogar</footer>
+<script type="module" src="app.js"></script>
+</body></html>
